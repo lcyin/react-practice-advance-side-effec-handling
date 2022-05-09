@@ -17,9 +17,17 @@ const Login = (props) => {
   // useEffect use for response code for something
   // note: onle add something will cause React component re-evaluate in dependencies
   useEffect(() => {
-    setFormIsValid(
-      enteredEmail.includes('@') && enteredPassword.trim().length > 6
-    );
+    // debouncing -> debounce user input, make sure not doing something
+    // only one ongoing timer at a time, until the last timer execute
+    const identifier = setTimeout(() => {
+      setFormIsValid(
+        enteredEmail.includes('@') && enteredPassword.trim().length > 6
+      );
+    }, 500);
+    // cleanup function -> run as cleanup process before next useEffect function execture (except first execute)
+    return () => {
+      clearTimeout(identifier);
+    };
   }, [enteredEmail, enteredPassword]);
 
   const emailChangeHandler = (event) => {
