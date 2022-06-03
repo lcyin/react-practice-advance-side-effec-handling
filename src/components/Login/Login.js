@@ -59,6 +59,9 @@ const Login = (props) => {
     isValid: null,
   });
 
+  const { isValid: emailIsValid } = emailState;
+  const { isValid: passwordIsValid } = passwordState;
+
   // 1. after very login component fuction execute
   // 2. re-run useEffect function
   // 3. only either enteredEmail, enteredPassword changed in the last rerender cycle
@@ -69,13 +72,13 @@ const Login = (props) => {
     // debouncing -> debounce user input, make sure not doing something
     // only one ongoing timer at a time, until the last timer execute
     const identifier = setTimeout(() => {
-      setFormIsValid(emailState.isValid && passwordState.isValid);
+      setFormIsValid(emailIsValid && passwordIsValid);
     }, 500);
     // cleanup function -> run as cleanup process before next useEffect function execture (except first execute)
     return () => {
       clearTimeout(identifier);
     };
-  }, [emailState, passwordState]);
+  }, [emailIsValid, passwordIsValid]);
 
   const emailChangeHandler = (event) => {
     dispatchEmail({ type: 'INPUT_EMAIL', val: event.target.value });
