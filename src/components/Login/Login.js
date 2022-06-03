@@ -65,28 +65,26 @@ const Login = (props) => {
   // reuslt -> ensure one code in one place, instead of in multi places
   // useEffect use for response code for something
   // note: onle add something will cause React component re-evaluate in dependencies
-  // useEffect(() => {
-  //   // debouncing -> debounce user input, make sure not doing something
-  //   // only one ongoing timer at a time, until the last timer execute
-  //   const identifier = setTimeout(() => {
-  //     setFormIsValid(
-  //       emailState.value.includes('@') && enteredPassword.trim().length > 6
-  //     );
-  //   }, 500);
-  //   // cleanup function -> run as cleanup process before next useEffect function execture (except first execute)
-  //   return () => {
-  //     clearTimeout(identifier);
-  //   };
-  // }, [emailState.value, enteredPassword]);
+  useEffect(() => {
+    // debouncing -> debounce user input, make sure not doing something
+    // only one ongoing timer at a time, until the last timer execute
+    const identifier = setTimeout(() => {
+      setFormIsValid(emailState.isValid && passwordState.isValid);
+    }, 500);
+    // cleanup function -> run as cleanup process before next useEffect function execture (except first execute)
+    return () => {
+      clearTimeout(identifier);
+    };
+  }, [emailState, passwordState]);
 
   const emailChangeHandler = (event) => {
     dispatchEmail({ type: 'INPUT_EMAIL', val: event.target.value });
-    setFormIsValid(event.target.value.includes('@') && passwordState.isValid);
+    // setFormIsValid(event.target.value.includes('@') && passwordState.isValid);
   };
 
   const passwordChangeHandler = (event) => {
     dispatchPassword({ type: 'INPUT_EMAIL', val: event.target.value });
-    setFormIsValid(emailState.isValid && event.target.value.trim().length > 6);
+    // setFormIsValid(emailState.isValid && event.target.value.trim().length > 6);
   };
 
   const validateEmailHandler = () => {
