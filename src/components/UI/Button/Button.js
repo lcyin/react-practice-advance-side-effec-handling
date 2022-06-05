@@ -7,6 +7,7 @@ const Button = (props) => {
     <button
       type={props.type || 'button'}
       className={`${classes.button} ${props.className}`}
+      // dynamic click behavior
       onClick={props.onClick}
       disabled={props.disabled}
     >
