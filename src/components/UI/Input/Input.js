@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { useRef, useEffect, useImperativeandle } from 'react';
 import classes from './Input.module.css';
+// ref should set from outside, establist connection between ref passed from side to internal component
+const Input = React.forwardRef((props, ref) => {
+  // Reference input HTML element
+  const inputRef = useRef();
+  // function called by outside
+  const activate = () => {
+    inputRef.current.focus();
+  };
 
-const Input = (props) => {
+  useImperativeandle(ref, () => {
+    return {
+      focus: activate,
+    };
+  });
+
   return (
     <div
       className={`${classes.control} ${
@@ -10,6 +23,8 @@ const Input = (props) => {
     >
       <label htmlFor={props.id}>{props.label}</label>
       <input
+        // ref is build-in props
+        ref={inputRef}
         type={props.type}
         id={props.id}
         value={props.value}
@@ -18,6 +33,6 @@ const Input = (props) => {
       />
     </div>
   );
-};
+});
 
 export default Input;
